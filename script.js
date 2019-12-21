@@ -16,9 +16,9 @@ pizzaJson.map((item, index) => {
   pizzaItem.querySelector(".pizza-item--name").innerHTML = item.name;
   pizzaItem.querySelector(".pizza-item--desc").innerHTML = item.description;
 
-  pizzaItem.querySelector("a").addEventListener("click", e => {
-    e.preventDefault();
-    let key = e.target.closest(".pizza-item").getAttribute("data-key");
+  pizzaItem.querySelector("a").addEventListener("click", event => {
+    event.preventDefault();
+    let key = event.target.closest(".pizza-item").getAttribute("data-key");
     modalQuantity = 1;
 
     $(".pizzaBig img").src = pizzaJson[key].img;
@@ -63,3 +63,22 @@ $all(".pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton").forEach(
     item.addEventListener("click", closeModal);
   }
 );
+
+$(".quantity.-less").addEventListener("click", () => {
+  if (modalQuantity > 1) {
+    modalQuantity--;
+    $(".pizzaInfo--qt").innerHTML = modalQuantity;
+  }
+});
+
+$(".quantity.-more").addEventListener("click", () => {
+  modalQuantity++;
+  $(".pizzaInfo--qt").innerHTML = modalQuantity;
+});
+
+$all(".pizzaInfo--size").forEach((size, sizeIndex) => {
+  size.addEventListener("click", () => {
+    $(".pizzaInfo--size.selected").classList.remove("selected");
+    size.classList.add("selected");
+  });
+});
