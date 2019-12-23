@@ -2,6 +2,8 @@ const $ = el => document.querySelector(el);
 const $all = el => document.querySelectorAll(el);
 
 let modalQuantity = 1;
+let cart = [];
+let modalKey = 0;
 
 // Lista as pizzas
 
@@ -20,6 +22,7 @@ pizzaJson.map((item, index) => {
     event.preventDefault();
     let key = event.target.closest(".pizza-item").getAttribute("data-key");
     modalQuantity = 1;
+    modalKey = key;
 
     $(".pizzaBig img").src = pizzaJson[key].img;
     $(".pizzaInfo .title").innerHTML = pizzaJson[key].name;
@@ -81,4 +84,14 @@ $all(".pizzaInfo--size").forEach((size, sizeIndex) => {
     $(".pizzaInfo--size.selected").classList.remove("selected");
     size.classList.add("selected");
   });
+});
+
+$(".pizzaInfo--addButton").addEventListener("click", () => {
+  let size = parseInt($(".pizzaInfo--size.selected").getAttribute("data-key"));
+  cart.push({
+    id: pizzaJson[modalKey].id,
+    size,
+    quantity: modalQuantity
+  });
+  closeModal();
 });
