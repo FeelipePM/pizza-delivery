@@ -88,10 +88,18 @@ $all(".pizzaInfo--size").forEach((size, sizeIndex) => {
 
 $(".pizzaInfo--addButton").addEventListener("click", () => {
   let size = parseInt($(".pizzaInfo--size.selected").getAttribute("data-key"));
-  cart.push({
-    id: pizzaJson[modalKey].id,
-    size,
-    quantity: modalQuantity
-  });
+
+  let indentifier = pizzaJson[modalKey].id + "@" + size;
+
+  let key = cart.findIndex(item => item.indentifier == indentifier);
+
+  key > -1
+    ? (cart[key].quantity += modalQuantity)
+    : cart.push({
+        indentifier,
+        id: pizzaJson[modalKey].id,
+        size,
+        quantity: modalQuantity
+      });
   closeModal();
 });
