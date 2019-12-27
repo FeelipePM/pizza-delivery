@@ -88,7 +88,6 @@ $all(".pizzaInfo--size").forEach((size, sizeIndex) => {
 
 $(".pizzaInfo--addButton").addEventListener("click", () => {
   let size = parseInt($(".pizzaInfo--size.selected").getAttribute("data-key"));
-
   let indentifier = pizzaJson[modalKey].id + "@" + size;
 
   let key = cart.findIndex(item => item.indentifier == indentifier);
@@ -101,5 +100,43 @@ $(".pizzaInfo--addButton").addEventListener("click", () => {
         size,
         quantity: modalQuantity
       });
+  updateCart();
   closeModal();
 });
+
+const updateCart = () => {
+  if (cart.length > 0) {
+    $("aside").classList.add("show");
+    $(".cart").innerHTML = "";
+
+    cart.map((cart, index) => {
+      console.log(cart.size);
+      console.log(index);
+
+      let pizzaItem = pizzaJson.find(item => item.id == [cart.size]);
+      console.log(pizzaItem);
+
+      let cartItem = $(".models .cart--item").cloneNode(true);
+
+      const getPizzaSize = size => {
+        const sizes = {
+          0: (pizzaSizeName = "P"),
+          1: (pizzaSizeName = "M"),
+          2: (pizzaSizeName = "G")
+        };
+        return sizes[size];
+      };
+
+      console.log(getPizzaSize());
+
+      let pizzaName = `${pizzaItem.name} (${pizzaSizeName})`;
+
+      cartItem.querySelector("img").src = pizzaItem.img;
+      cartItem.querySelector(".cart--item-nome").innerHTML = pizzaName;
+
+      $(".cart").append(cartItem);
+    });
+  } else {
+    $("aside").classList.remove("show");
+  }
+};
