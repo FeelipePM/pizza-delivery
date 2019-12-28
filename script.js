@@ -109,30 +109,29 @@ const updateCart = () => {
     $("aside").classList.add("show");
     $(".cart").innerHTML = "";
 
-    cart.map((cart, index) => {
-      console.log(cart.size);
-      console.log(index);
-
-      let pizzaItem = pizzaJson.find(item => item.id == [cart.size]);
-      console.log(pizzaItem);
+    cart.map(cart => {
+      let pizzaItem = pizzaJson.find(item => item.id == cart.id);
 
       let cartItem = $(".models .cart--item").cloneNode(true);
 
+      let size = cart.size;
+
       const getPizzaSize = size => {
         const sizes = {
-          0: (pizzaSizeName = "P"),
-          1: (pizzaSizeName = "M"),
-          2: (pizzaSizeName = "G")
+          0: () => (size = "P"),
+          1: () => (size = "M"),
+          2: () => (size = "G")
         };
-        return sizes[size];
+        return sizes[size]();
       };
 
-      console.log(getPizzaSize());
+      let pizzaSizeName = getPizzaSize(size);
 
       let pizzaName = `${pizzaItem.name} (${pizzaSizeName})`;
 
       cartItem.querySelector("img").src = pizzaItem.img;
       cartItem.querySelector(".cart--item-nome").innerHTML = pizzaName;
+      cartItem.querySelector(".cart--item--qt").innerHTML = cart.quantity;
 
       $(".cart").append(cartItem);
     });
